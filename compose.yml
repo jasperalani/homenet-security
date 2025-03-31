@@ -54,7 +54,7 @@ services:
     ports:
       - "9090:9090"  # Prometheus UI port
     volumes:
-      - prometheus_data:/prometheus
+      - ./prometheus:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - pihole_network
@@ -69,7 +69,7 @@ services:
     ports:
       - "3000:3000"  # Grafana dashboard
     volumes:
-      - grafana_data:/var/lib/grafana
+      - ./grafana:/var/lib/grafana
     networks:
       - pihole_network
 
@@ -104,14 +104,6 @@ services:
     volumes:
       - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
 
-# Network definition for communication between services
 networks:
   pihole_network:
     driver: bridge
-
-# Volumes for persistent storage
-volumes:
-  prometheus_data:
-  grafana_data:
-  pihole_data:
-  fail2ban_data:

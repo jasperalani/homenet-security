@@ -1,6 +1,30 @@
+
 # Home Network Docker Setup
 
-This Docker Compose configuration sets up multiple services, including Pi-hole, Fail2Ban, Portainer, Prometheus, Grafana, Node Exporter, and Blackbox Exporter, all running within a custom network for seamless communication.
+This Docker Compose configuration sets up multiple services, including Pi-hole, Fail2Ban, Portainer, Prometheus, Grafana, Node Exporter, and Blackbox Exporter.
+
+## Usage
+1. Clone this repository or download the Docker Compose file.
+2. Adjust the `WEBPASSWORD` and `GF_SECURITY_ADMIN_PASSWORD` environment variables to set secure passwords for the web interfaces.
+3. Run the following command to start all the services:
+   ```bash
+   docker-compose up -d
+   ```
+4. Access the services:
+   - Pi-hole Web Interface: `http://pihole.local` (or `http://localhost`)
+   - Portainer Web UI: `http://localhost:9000`
+   - Prometheus UI: `http://localhost:9090`
+   - Grafana Dashboard: `http://localhost:3000`
+
+## Stopping and Restarting Services
+To stop the services, run:
+```bash
+docker-compose down
+```
+To restart the services:
+```bash
+docker-compose restart
+```
 
 ## Services
 
@@ -48,7 +72,7 @@ Prometheus is an open-source monitoring and alerting toolkit that collects and s
 - **Ports**:
   - `9090:9090` (Prometheus UI)
 - **Volumes**:
-  - Maps `prometheus_data` for persistent storage.
+  - Maps `./prometheus` for persistent storage.
   - Maps `./prometheus/prometheus.yml` for Prometheus configuration.
 - **Networks**: `pihole_network`
 
@@ -61,7 +85,7 @@ Grafana is an open-source platform for monitoring and observability. It integrat
 - **Ports**:
   - `3000:3000` (Grafana dashboard)
 - **Volumes**:
-  - Maps `grafana_data` for persistent storage.
+  - Maps `./grafana` for persistent storage.
 - **Networks**: `pihole_network`
 
 ### 6. **Node Exporter**
@@ -87,38 +111,9 @@ Blackbox Exporter is used for monitoring endpoints via HTTP, HTTPS, DNS, TCP, IC
 ## Networks
 - **pihole_network**: A custom bridge network for communication between services.
 
-## Volumes
-- **prometheus_data**: Persistent storage for Prometheus data.
-- **grafana_data**: Persistent storage for Grafana data.
-- **pihole_data**: Persistent storage for Pi-hole data.
-- **fail2ban_data**: Persistent storage for Fail2Ban data.
-
 ## Prerequisites
 - Docker and Docker Compose must be installed on your system.
 - Ensure that you have sufficient disk space for logs and persistent storage.
-
-## Usage
-1. Clone this repository or download the Docker Compose file.
-2. Adjust the `WEBPASSWORD` and `GF_SECURITY_ADMIN_PASSWORD` environment variables to set secure passwords for the web interfaces.
-3. Run the following command to start all the services:
-   ```bash
-   docker-compose up -d
-   ```
-4. Access the services:
-   - Pi-hole Web Interface: `http://pihole.local` (or `http://localhost`)
-   - Portainer Web UI: `http://localhost:9000`
-   - Prometheus UI: `http://localhost:9090`
-   - Grafana Dashboard: `http://localhost:3000`
-
-## Stopping and Restarting Services
-To stop the services, run:
-```bash
-docker-compose down
-```
-To restart the services:
-```bash
-docker-compose restart
-```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
