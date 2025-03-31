@@ -7,7 +7,7 @@ services:
     environment:
       - TZ=Europe/London
       - WEBPASSWORD=password
-      - PIHOLE_DNS_=8.8.8.8 # Use Google DNS or another DNS of your choice
+      - PIHOLE_DNS_=8.8.8.8
       - PIHOLE_INTERFACE=eth0
       - VIRTUAL_HOST=pihole.local
     ports:
@@ -40,7 +40,7 @@ services:
     environment:
       - TZ=Europe/London
     ports:
-      - "9000:9000"  # Port to access the dashboard
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -52,22 +52,22 @@ services:
     container_name: prometheus
     restart: unless-stopped
     ports:
-      - "9090:9090"  # Prometheus UI port
+      - "9090:9090"
     volumes:
       - ./prometheus:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - pihole_network
 
-  # Grafana for data visualization (connected to Prometheus)
+  # Grafana for data visualization
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=password  # Change the default admin password
+      - GF_SECURITY_ADMIN_PASSWORD=password
     ports:
-      - "3000:3000"  # Grafana dashboard
+      - "3000:3000"
     volumes:
       - ./grafana:/var/lib/grafana
     networks:
